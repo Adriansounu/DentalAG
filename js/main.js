@@ -124,13 +124,42 @@
     var doctor = $('#doctor').val();
     var name = $('#name').val();
     var email = $('#email').val();
+    var phone = $('#phone').val();
     var date = $('#date').val();
     var time = $('#time').val();
+    var message = $('#message').val();
 
-    var message = `Hola, quisiera una cita para:\n\nServicio: ${service}\nDoctor: ${doctor}\nNombre: ${name}\nEmail: ${email}\nFecha: ${date}\nHora: ${time}`;
-    var encodedMessage = encodeURIComponent(message);
-    var phone = "528441307881";
-    var whatsappURL = `https://wa.me/${phone}?text=${encodedMessage}`;
+    // Verificar campos requeridos
+    if (!service || !doctor || !name || !date || !time) {
+        alert('Por favor completa todos los campos requeridos');
+        return;
+    }
+
+    // Construir mensaje para WhatsApp
+    var whatsappMessage = `Hola, quisiera solicitar una cita dental:\n\n`;
+    whatsappMessage += `👨‍⚕️ Servicio: ${service}\n`;
+    whatsappMessage += `🩺 Doctor: ${doctor}\n`;
+    whatsappMessage += `👤 Nombre: ${name}\n`;
+    
+    if (phone) {
+        whatsappMessage += `📱 Teléfono: ${phone}\n`;
+    }
+    if (email) {
+        whatsappMessage += `📧 Email: ${email}\n`;
+    }
+    
+    whatsappMessage += `📅 Fecha preferida: ${date}\n`;
+    whatsappMessage += `🕐 Hora preferida: ${time}\n`;
+    
+    if (message) {
+        whatsappMessage += `💬 Mensaje adicional: ${message}\n`;
+    }
+    
+    whatsappMessage += `\n¡Espero su confirmación! 😊`;
+
+    var encodedMessage = encodeURIComponent(whatsappMessage);
+    var phoneNumber = "528441307881";
+    var whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappURL, '_blank');
 });
 
